@@ -1,18 +1,31 @@
+import { Depths } from 'enums/Depths';
 import GameScene from 'scenes/GameScene';
 
 export default class WorldEnv {
+
+    public static readonly GROUND_OFFSET = 50;
+    public static readonly GROUND_Y = 720 - 300;
+    public readonly groundGroup: Phaser.GameObjects.Group;
+
     constructor (
         private scene: GameScene
     ) {
-        // let bg = this.scene.add.image(0, 0, 'background')
-        //     .setOrigin(0, 0)
-        //     .setDepth(Depths.BG_TEXTURE);
-        // bg.setInteractive();
-        // bg.on('pointerdown', () => {
-        //     if (this.scene.input.activePointer.downElement.localName !== 'canvas') {
-        //         return;
-        //     }
-        //     // this.scene.events.emit(Events.CLOSE_ALL_MODALS);
-        // });
+        this.groundGroup = this.scene.add.group();
+
+        let ground = this.scene.add.image(0, 720 - 300, 'ground')
+            .setOrigin(0, 0)
+            .setDepth(Depths.BG_TEXTURE);
+
+        for (let i = 0; i < 10; i++) {
+            ground = this.scene.add.image(i * 900, WorldEnv.GROUND_Y, 'ground')
+                .setOrigin(0, 0)
+                .setDepth(Depths.BG_TEXTURE);
+            this.scene.physics.world.enable(ground);
+            ground.body.setImmovable(true);
+            ground.body.allowGravity = false;
+            ground.body.setSize(ground.width, ground.height - WorldEnv.GROUND_OFFSET);
+
+            this.groundGroup.add(ground);
+        }
     }
 }

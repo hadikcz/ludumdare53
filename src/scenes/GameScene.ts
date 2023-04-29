@@ -1,3 +1,4 @@
+import Player from 'core/player/Player';
 import WorldEnv from 'core/WorldEnv';
 import dat, { GUI } from 'dat.gui';
 import EffectManager from 'effects/EffectManager';
@@ -18,6 +19,7 @@ export default class GameScene extends Phaser.Scene {
     private testObject!: Phaser.GameObjects.Image;
     private controls!: Phaser.Cameras.Controls.SmoothedKeyControl;
     public xPos$!: Subject<number>;
+    public player!: Player;
 
     constructor () {
         super({ key: 'GameScene' });
@@ -25,6 +27,8 @@ export default class GameScene extends Phaser.Scene {
 
     create (): void {
         window.scene = this;
+
+        this.physics.world.setBounds(0, 0, 10000, 1000);
 
         this.xPos$ = new Subject<number>();
 
@@ -34,18 +38,19 @@ export default class GameScene extends Phaser.Scene {
         this.worldEnv = new WorldEnv(this);
 
         this.cameras.main.setZoom(1);
-        this.cameras.main.setBackgroundColor('#00');
+        this.cameras.main.setBackgroundColor('#8bd0ba');
         // this.cameras.main.centerOn(GameConfig.PhaserBasicSettings.gameSize.width / 4, GameConfig.PhaserBasicSettings.gameSize.height / 4);
 
-        this.testObject = this.add.image(500, 500, 'tiles16');
+        this.player = new Player(this, 4500, 100);
+
+        this.physics.add.collider(this.player, this.worldEnv.groundGroup);
         this.effectManager = new EffectManager(this);
 
         this.ui = new UI(this);
     }
 
     update (time, delta): void {
-        this.testObject.x -= 0.5;
-        this.xPos$.next(this.testObject.x);
+        // this.xPos$.next(this.testObject.x);
     }
 
     private initDebugUI (): void {

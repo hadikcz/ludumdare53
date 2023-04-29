@@ -35,8 +35,8 @@ body {
 
 
 .ui {
-    width: 1280px;
-    height: 720px;
+    width: 1024px;
+    height: 640px;
     left: 50%;
     transform: translateX(-50%);
     position: absolute;

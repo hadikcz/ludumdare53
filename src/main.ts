@@ -11,7 +11,7 @@ const config = {
     roundPixels: true,
     autoRound: true,
     parent: 'content',
-    width: GameConfig.PhaserBasicSettings.gameSize.width,
+    width: 1024,
     height: GameConfig.PhaserBasicSettings.gameSize.height,
     backgroundColor: GameConfig.PhaserBasicSettings.backgroundColor,
     fps: {
@@ -22,8 +22,8 @@ const config = {
         fps: 60,
         default: 'arcade',
         arcade: {
-            debug: false,
-            gravity: { y: 0 }
+            gravity: { y: 300 },
+            debug: true
         }
     },
     disableContextMenu: !__DEV__,
