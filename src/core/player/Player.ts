@@ -38,7 +38,7 @@ export default class Player extends Phaser.GameObjects.Container {
         this.setDepth(Depths.PLAYER);
         this.scene.cameras.main.startFollow(this, false, 0.85, 0.85, 0, 0); //210
 
-        this.characterImage = this.scene.add.image(0, 0, 'game', 'player').setOrigin(0.5, 0);
+        this.characterImage = this.scene.add.image(0, 0, 'assets', 'player').setOrigin(0.5, 0);
         this.add(this.characterImage);
 
     }

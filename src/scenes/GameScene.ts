@@ -1,3 +1,4 @@
+import PlantsManager from 'core/items/plants/PlantsManager';
 import Player from 'core/player/Player';
 import WorldEnv from 'core/WorldEnv';
 import dat, { GUI } from 'dat.gui';
@@ -12,6 +13,7 @@ declare let __DEV__: any;
 
 export default class GameScene extends Phaser.Scene {
 
+    public static readonly START_X = 4500;
     public effectManager!: EffectManager;
     public ui!: UI;
     private debugGui!: GUI;
@@ -20,6 +22,7 @@ export default class GameScene extends Phaser.Scene {
     private controls!: Phaser.Cameras.Controls.SmoothedKeyControl;
     public xPos$!: Subject<number>;
     public player!: Player;
+    private plantsManager!: PlantsManager;
 
     constructor () {
         super({ key: 'GameScene' });
@@ -41,9 +44,12 @@ export default class GameScene extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#8bd0ba');
         // this.cameras.main.centerOn(GameConfig.PhaserBasicSettings.gameSize.width / 4, GameConfig.PhaserBasicSettings.gameSize.height / 4);
 
-        this.player = new Player(this, 4500, 100);
+        this.player = new Player(this, GameScene.START_X, 100);
+
+        this.plantsManager = new PlantsManager(this);
 
         this.physics.add.collider(this.player, this.worldEnv.groundGroup);
+        this.physics.add.collider(this.plantsManager.plantItems, this.worldEnv.groundGroup);
         this.effectManager = new EffectManager(this);
 
         this.ui = new UI(this);

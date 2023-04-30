@@ -27,7 +27,7 @@ export default class BootScene extends Phaser.Scene {
         this.load.setPath('assets/images');
         this.load.image('fence', 'fence.png');
         this.load.image('ground', 'ground.png');
-        this.load.atlas('game', 'assets.png', 'assets.json');
+        this.load.atlas('assets', 'assets.png', 'assets.json');
     }
 
     private startGame (): void {
