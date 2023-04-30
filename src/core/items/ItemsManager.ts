@@ -7,7 +7,7 @@ import GameScene from 'scenes/GameScene';
 
 export default class ItemsManager {
 
-    private static readonly PICKUP_RANGE = 25;
+    public static readonly PICKUP_RANGE = 25;
 
     public plantsManager: PlantsManager;
 

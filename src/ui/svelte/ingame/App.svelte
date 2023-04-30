@@ -2,6 +2,7 @@
     import GameScene from "scenes/GameScene";
 	import {onDestroy} from "svelte";
 	import './global.css';
+	import SeedMenu from "ui/svelte/ingame/SeedMenu.svelte";
 
     export let scene: GameScene;
 
@@ -34,4 +35,6 @@
 			{posX}
 		</div>
 	</div>
+
+	<SeedMenu scene="{scene}"></SeedMenu>
 </main>

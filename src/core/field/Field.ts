@@ -61,6 +61,10 @@ export default class Field extends Phaser.GameObjects.Image {
             .setScale(0.5);
     }
 
+    canPlant(): boolean {
+        return this.phase === PlantPhase.EMPTY;
+    }
+
     async seed (crop: Plants) {
         this.crop = crop;
         this.setPhase(PlantPhase.SEED);

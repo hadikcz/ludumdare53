@@ -1,6 +1,8 @@
+import Field from 'core/field/Field';
 import { AbstractItem } from 'core/items/AbstractItem';
 import PlayerCharacterControls, { MovementDirection } from 'core/player/PlayerCharacterControls';
 import { Depths } from 'enums/Depths';
+import { Events } from 'enums/Events';
 import { Items } from 'enums/Items';
 import GameScene from 'scenes/GameScene';
 
@@ -18,6 +20,8 @@ export default class Player extends Phaser.GameObjects.Container {
     private equipedItemType: Items|null = null;
     private equipedItem: AbstractItem|null = null;
     private overHeadText: Phaser.GameObjects.Text;
+    public lockedMovementWhileOpenModal: boolean = false;
+    public nearestField: Field|null = null;
 
     constructor (
         public scene: GameScene,
@@ -68,9 +72,20 @@ export default class Player extends Phaser.GameObjects.Container {
 
             if (nearestItem) {
                 this.overHeadText.setText(nearestItem.getPickupText());
+                return;
             } else {
                 this.overHeadText.setText('');
             }
+
+            if (!this.lockedMovementWhileOpenModal) {
+                this.nearestField = this.scene.fieldManager.findNearestFieldInRange(this.x, this.y);
+                if (this.nearestField) {
+                    this.overHeadText.setText('Press E to seed');
+                } else {
+                    this.overHeadText.setText('');
+                }
+            }
+
         }
 
         this.overHeadTextProcess();
@@ -88,6 +103,15 @@ export default class Player extends Phaser.GameObjects.Container {
                 this.equipedItem.pickup();
 
                 this.overHeadText.setText('');
+
+                return;
+            }
+
+            if (this.nearestField && this.nearestField.canPlant()) {
+                this.lockedMovementWhileOpenModal = true;
+                this.scene.events.emit(Events.OPEN_SEED_MENU);
+
+                return;
             }
         }
     }

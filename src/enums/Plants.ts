@@ -5,5 +5,5 @@ export enum Plants {
     TOMATO = 'tomato',
     CORN = 'corn',
     SUNFLOWER = 'sunflower',
-    WATERMELON = 'watermelon',
+    WATERMELON = 'water_melon',
 }

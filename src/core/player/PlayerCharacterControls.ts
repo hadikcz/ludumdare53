@@ -1,3 +1,4 @@
+import { Events, ModalMovement } from 'enums/Events';
 import GameScene from 'scenes/GameScene';
 
 export default class PlayerCharacterControls {
@@ -24,7 +25,7 @@ export default class PlayerCharacterControls {
 
     update () {
         let click = false;
-        if (!this.playerCharacter.lockedMovementWhileOpenShop) {
+        if (!this.playerCharacter.lockedMovementWhileOpenModal) {
             if (this.keys.left.isDown || this.keys.left2.isDown) {
                 this.playerCharacter.moveToDir(MovementDirection.LEFT);
                 click = true;
@@ -45,21 +46,26 @@ export default class PlayerCharacterControls {
                 this.playerCharacter.putDownItem();
             }
 
-            if (this.keys.action.isDown) {
+            if (Phaser.Input.Keyboard.JustDown(this.keys.action)) {
                 this.playerCharacter.action();
             }
         } else {
+            // if press E key, once
+            if (Phaser.Input.Keyboard.JustDown(this.keys.action)) {
+                this.scene.events.emit(Events.MODAL_ACTION);
+            }
+
             if (Phaser.Input.Keyboard.JustDown(this.keys.dropItem)) {
-                // this.scene.ui.buildMenuUI.hide();
-                // this.playerCharacter.unLockMovementWhileOpenShop();
+                this.scene.events.emit(Events.CLOSE_ALL_MODAL);
+                this.playerCharacter.lockedMovementWhileOpenModal = false;
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.keys.up) || Phaser.Input.Keyboard.JustDown(this.keys.up2)) {
-                // this.scene.ui.buildMenuUI.moveUp();
+                this.scene.events.emit(Events.MODAL_MOVEMENT, ModalMovement.UP);
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.keys.down) || Phaser.Input.Keyboard.JustDown(this.keys.down2)) {
-                // this.scene.ui.buildMenuUI.moveDown();
+                this.scene.events.emit(Events.MODAL_MOVEMENT, ModalMovement.DOWN);
             }
         }
     }
