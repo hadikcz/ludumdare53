@@ -76,4 +76,40 @@ export abstract class AbstractItem extends Phaser.GameObjects.Sprite {
         return this.item;
     }
 
+    getPickupText (): string {
+        if (this.plant) {
+            switch (this.plant) {
+                case Plants.CARROT:
+                    return 'Pick up carrot';
+                case Plants.POTATO:
+                    return 'Pick up potato';
+                case Plants.TOMATO:
+                    return 'Pick up tomato';
+                case Plants.CORN:
+                    return 'Pick up corn';
+                case Plants.WHEAT:
+                    return 'Pick up wheat';
+                case Plants.SUNFLOWER:
+                    return 'Pick up sunflower';
+                case Plants.WATERMELON:
+                    return 'Pick up watermelon';
+            }
+        } else {
+            switch (this.item) {
+                case Items.PLANT:
+                    return 'Pick up plant';
+                case Items.SHOVEL:
+                    return 'Pick up shovel';
+                case Items.BUCKET:
+                    return 'Pick up bucket';
+                case Items.SCYTHE:
+                    return 'Pick up scythe';
+            }
+        }
+    }
+
+    canBePickedUp (): boolean {
+        return !this.isPickedUp;
+    }
+
 }

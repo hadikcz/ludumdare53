@@ -1,5 +1,5 @@
 export enum Plants {
-    WHEAT,
+    WHEAT = 1,
     CARROT,
     POTATO,
     TOMATO,

@@ -11,13 +11,8 @@ export default class WorldEnv {
         private scene: GameScene
     ) {
         this.groundGroup = this.scene.add.group();
-
-        let ground = this.scene.add.image(0, 720 - 300, 'ground')
-            .setOrigin(0, 0)
-            .setDepth(Depths.BG_TEXTURE);
-
         for (let i = 0; i < 10; i++) {
-            ground = this.scene.add.image(i * 900, WorldEnv.GROUND_Y, 'ground')
+            let ground = this.scene.add.image(i * 900, WorldEnv.GROUND_Y, 'ground')
                 .setOrigin(0, 0)
                 .setDepth(Depths.BG_TEXTURE);
             this.scene.physics.world.enable(ground);
@@ -27,5 +22,10 @@ export default class WorldEnv {
 
             this.groundGroup.add(ground);
         }
+    }
+
+    getGroundY (): number {
+        // @ts-ignore
+        return this.groundGroup.getChildren()[0].y + WorldEnv.GROUND_OFFSET / 2;
     }
 }

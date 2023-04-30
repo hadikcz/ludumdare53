@@ -17,6 +17,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
     private equipedItemType: Items|null = null;
     private equipedItem: AbstractItem|null = null;
+    private overHeadText: Phaser.GameObjects.Text;
 
     constructor (
         public scene: GameScene,
@@ -47,6 +48,12 @@ export default class Player extends Phaser.GameObjects.Container {
         this.characterImage = this.scene.add.image(0, 0, 'assets', 'player').setOrigin(0.5, 0);
         this.add(this.characterImage);
 
+        this.overHeadText = this.scene.add.text(0, 0, '', { fontFamily: 'ARCADECLASSIC, Arial', fontSize: '55px', color: '#FFFFFF' }); // '#FF0000'
+        this.overHeadText.setOrigin(0.5, 2);
+        // this.overHeadText.setDepth(Depths.PLAYER_OVERHEAD_TEXT);
+        this.overHeadText.setScale(0.25, 0.25);
+        this.add(this.overHeadText);
+
     }
 
     preUpdate (): void {
@@ -55,6 +62,18 @@ export default class Player extends Phaser.GameObjects.Container {
         if (this.equipedItem) {
             this.equipedItem.setPosition(this.x, this.y + Player.PICKED_ITEM_OFFSET_Y);
         }
+
+        if (!this.equipedItemType) {
+            let nearestItem = this.scene.itemsManager.findNearestItem(this.x, this.y);
+
+            if (nearestItem) {
+                this.overHeadText.setText(nearestItem.getPickupText());
+            } else {
+                this.overHeadText.setText('');
+            }
+        }
+
+        this.overHeadTextProcess();
 
     }
 
@@ -67,6 +86,8 @@ export default class Player extends Phaser.GameObjects.Container {
                 this.equipedItem = nearestItem;
 
                 this.equipedItem.pickup();
+
+                this.overHeadText.setText('');
             }
         }
     }
@@ -81,6 +102,8 @@ export default class Player extends Phaser.GameObjects.Container {
 
         this.equipedItemType = null;
         this.equipedItem = null;
+
+        this.overHeadText.setText('');
     }
 
 
@@ -102,6 +125,17 @@ export default class Player extends Phaser.GameObjects.Container {
 
         if (direction === MovementDirection.STOPX) {
             this.body.setVelocityX(0);
+        }
+    }
+
+    private overHeadTextProcess (): void {
+        if (!this.equipedItemType) {
+            return;
+        }
+
+        if (this.equipedItemType === Items.SHOVEL) {
+            // if can dig
+            this.overHeadText.setText('Dig    new    field');
         }
     }
 }

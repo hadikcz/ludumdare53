@@ -25,6 +25,9 @@ export default class ItemsManager {
 
     findNearestItem (x: number, y: number): AbstractItem|null {
         let items = this.getAllItems();
+        items = items.filter((item: AbstractItem) => {
+            return item.canBePickedUp() ? item : null;
+        });
         return ArrayHelpers.findLowest<AbstractItem|null>(items, (item: AbstractItem) => {
             let distance = Phaser.Math.Distance.Between(x, y, item.x, y);
             if (distance <= ItemsManager.PICKUP_RANGE) {
