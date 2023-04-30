@@ -143,6 +143,9 @@ export default class ArrayHelpers {
             }
         }
 
+        if (lowestValue === Infinity) {
+            return null;
+        }
         return lowestItem;
     }
 

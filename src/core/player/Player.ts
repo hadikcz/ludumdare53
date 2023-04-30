@@ -8,6 +8,7 @@ export default class Player extends Phaser.GameObjects.Container {
 
     private static readonly MOVEMENT_SPEED = 250;
     private static readonly JUMP_SPEED = 170;
+    private static readonly PICKED_ITEM_OFFSET_Y = 50;
 
     // @ts-ignore
     public body: Phaser.Physics.Arcade.Body;
@@ -52,7 +53,7 @@ export default class Player extends Phaser.GameObjects.Container {
         this.controls.update();
 
         if (this.equipedItem) {
-            this.equipedItem.setPosition(this.x, this.y + 20);
+            this.equipedItem.setPosition(this.x, this.y + Player.PICKED_ITEM_OFFSET_Y);
         }
 
     }

@@ -1,4 +1,4 @@
-import ItemsManager from 'core/items/plants/ItemsManager';
+import ItemsManager from 'core/items/ItemsManager';
 import PlantsManager from 'core/items/plants/PlantsManager';
 import Player from 'core/player/Player';
 import WorldEnv from 'core/WorldEnv';
@@ -53,6 +53,7 @@ export default class GameScene extends Phaser.Scene {
 
         this.physics.add.collider(this.player, this.worldEnv.groundGroup);
         this.physics.add.collider(this.itemsManager.plantsManager.plantItems, this.worldEnv.groundGroup);
+        this.physics.add.collider(this.itemsManager.interactiveItems, this.worldEnv.groundGroup);
         this.effectManager = new EffectManager(this);
 
         this.ui = new UI(this);
