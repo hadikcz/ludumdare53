@@ -1,4 +1,5 @@
 import { AbstractItem } from 'core/items/AbstractItem';
+import { Depths } from 'enums/Depths';
 import { Items } from 'enums/Items';
 import { Plants } from 'enums/Plants';
 import NumberHelpers from 'helpers/NumberHelpers';
@@ -14,11 +15,24 @@ export default class PlantItem extends AbstractItem {
     ) {
         let texture = getPlantTexture(plant);
 
-        console.log(texture);
-
         super(scene, x, y, 'crops/' + texture, Items.PLANT, plant);
 
+
+        this.setDepth(Depths.PLANT_ITEM);
+
         this.setAngle(NumberHelpers.randomIntInRange(-180, 180));
+    }
+
+    pickup (): void {
+        super.pickup();
+
+        this.setDepth(Depths.PICKED_ITEM);
+    }
+
+    putDown (x: number, y: number, velocity: Phaser.Math.Vector2) {
+        super.putDown(x, y, velocity);
+
+        this.setDepth(Depths.PLANT_ITEM);
     }
 }
 

@@ -1,3 +1,4 @@
+import ItemsManager from 'core/items/plants/ItemsManager';
 import PlantsManager from 'core/items/plants/PlantsManager';
 import Player from 'core/player/Player';
 import WorldEnv from 'core/WorldEnv';
@@ -21,6 +22,7 @@ export default class GameScene extends Phaser.Scene {
     private testObject!: Phaser.GameObjects.Image;
     private controls!: Phaser.Cameras.Controls.SmoothedKeyControl;
     public xPos$!: Subject<number>;
+    public itemsManager!: ItemsManager;
     public player!: Player;
     private plantsManager!: PlantsManager;
 
@@ -46,10 +48,11 @@ export default class GameScene extends Phaser.Scene {
 
         this.player = new Player(this, GameScene.START_X, 100);
 
-        this.plantsManager = new PlantsManager(this);
+
+        this.itemsManager = new ItemsManager(this);
 
         this.physics.add.collider(this.player, this.worldEnv.groundGroup);
-        this.physics.add.collider(this.plantsManager.plantItems, this.worldEnv.groundGroup);
+        this.physics.add.collider(this.itemsManager.plantsManager.plantItems, this.worldEnv.groundGroup);
         this.effectManager = new EffectManager(this);
 
         this.ui = new UI(this);

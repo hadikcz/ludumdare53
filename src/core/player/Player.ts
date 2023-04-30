@@ -1,5 +1,7 @@
+import { AbstractItem } from 'core/items/AbstractItem';
 import PlayerCharacterControls, { MovementDirection } from 'core/player/PlayerCharacterControls';
 import { Depths } from 'enums/Depths';
+import { Items } from 'enums/Items';
 import GameScene from 'scenes/GameScene';
 
 export default class Player extends Phaser.GameObjects.Container {
@@ -11,6 +13,9 @@ export default class Player extends Phaser.GameObjects.Container {
     public body: Phaser.Physics.Arcade.Body;
     private controls: PlayerCharacterControls;
     private characterImage: Phaser.GameObjects.Image;
+
+    private equipedItemType: Items|null = null;
+    private equipedItem: AbstractItem|null = null;
 
     constructor (
         public scene: GameScene,
@@ -28,8 +33,8 @@ export default class Player extends Phaser.GameObjects.Container {
         this.body.setCollideWorldBounds(true);
 
         this.body.setDragX(600);
-        let widthSize = 40;
-        let heightSize = 134;
+        let widthSize = 40 / 2;
+        let heightSize = 134 / 2;
         this.body.setSize(widthSize, heightSize);
         this.body.setOffset(-widthSize / 2, 0);
 
@@ -45,7 +50,38 @@ export default class Player extends Phaser.GameObjects.Container {
 
     preUpdate (): void {
         this.controls.update();
+
+        if (this.equipedItem) {
+            this.equipedItem.setPosition(this.x, this.y + 20);
+        }
+
     }
+
+    action (): void {
+        if (!this.equipedItemType) {
+            let nearestItem = this.scene.itemsManager.findNearestItem(this.x, this.y);
+
+            if (nearestItem) {
+                this.equipedItemType = nearestItem.getItemType();
+                this.equipedItem = nearestItem;
+
+                this.equipedItem.pickup();
+            }
+        }
+    }
+
+    putDownItem (): void {
+        if (!this.equipedItem) {
+            return;
+        }
+
+        this.equipedItem.explode();
+        this.equipedItem.putDown(this.x, this.y, this.body.velocity);
+
+        this.equipedItemType = null;
+        this.equipedItem = null;
+    }
+
 
     moveToDir (direction: MovementDirection) {
         if (direction === MovementDirection.LEFT) {

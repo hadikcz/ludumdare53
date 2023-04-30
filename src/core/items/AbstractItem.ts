@@ -1,6 +1,7 @@
 import { Items } from 'enums/Items';
 import { Plants } from 'enums/Plants';
 import GameScene from 'scenes/GameScene';
+import Vector2 = Phaser.Math.Vector2;
 
 export abstract class AbstractItem extends Phaser.GameObjects.Sprite {
 
@@ -49,6 +50,30 @@ export abstract class AbstractItem extends Phaser.GameObjects.Sprite {
         );
 
         this.body.angularVelocity = Phaser.Math.RND.integerInRange(0, 100);
+    }
+
+    pickup (): void {
+        this.isPickedUp = true;
+        this.body.setAllowGravity(false);
+        this.body.setVelocity(0, 0);
+        this.body.angularVelocity = 0;
+
+        this.afterTouchGround();
+    }
+
+    putDown (x: number, y: number, velocity: Vector2): void {
+        this.isPickedUp = false;
+        this.body.allowGravity = true;
+        this.setPosition(x, y);
+        if (velocity !== undefined) {
+            this.body.setVelocity(velocity.x * 1.25, velocity.y);
+        }
+
+        this.afterTouchGround();
+    }
+
+    getItemType (): Items {
+        return this.item;
     }
 
 }

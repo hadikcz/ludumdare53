@@ -42,12 +42,16 @@ export default class PlayerCharacterControls {
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.keys.dropItem)) {
-                this.playerCharacter.putDown();
+                this.playerCharacter.putDownItem();
+            }
+
+            if (this.keys.action.isDown) {
+                this.playerCharacter.action();
             }
         } else {
             if (Phaser.Input.Keyboard.JustDown(this.keys.dropItem)) {
                 // this.scene.ui.buildMenuUI.hide();
-                this.playerCharacter.unLockMovementWhileOpenShop();
+                // this.playerCharacter.unLockMovementWhileOpenShop();
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.keys.up) || Phaser.Input.Keyboard.JustDown(this.keys.up2)) {
