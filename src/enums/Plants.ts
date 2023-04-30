@@ -1,9 +1,9 @@
 export enum Plants {
-    WHEAT = 1,
-    CARROT,
-    POTATO,
-    TOMATO,
-    CORN,
-    SUNFLOWER,
-    WATERMELON,
+    WHEAT = 'wheat',
+    CARROT = 'carrot',
+    POTATO = 'potato',
+    TOMATO = 'tomato',
+    CORN = 'corn',
+    SUNFLOWER = 'sunflower',
+    WATERMELON = 'watermelon',
 }

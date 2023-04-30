@@ -37,7 +37,7 @@ export default class ProgressBarUI extends Phaser.GameObjects.Container {
         }
         this.setDepth(this.config.depth);
 
-        this.setAngle(180);
+        // this.setAngle(180);
     }
 
     preUpdate (): void {
@@ -92,8 +92,8 @@ export default class ProgressBarUI extends Phaser.GameObjects.Container {
             percent = 0;
         }
         let newScale = {
-            x: 1,
-            y: percent / 100
+            x: percent / 100,
+            y: 1
         };
 
         if (delay) {

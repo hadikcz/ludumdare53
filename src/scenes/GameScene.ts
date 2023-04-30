@@ -26,7 +26,7 @@ export default class GameScene extends Phaser.Scene {
     public itemsManager!: ItemsManager;
     public player!: Player;
     private plantsManager!: PlantsManager;
-    private fieldManager!: FieldManager;
+    public fieldManager!: FieldManager;
 
     constructor () {
         super({ key: 'GameScene' });
