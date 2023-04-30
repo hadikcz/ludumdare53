@@ -22,6 +22,13 @@ export default class WorldEnv {
 
             this.groundGroup.add(ground);
         }
+
+
+        for (let i = 0; i < 10; i++) {
+            this.scene.add.image(i * 900, WorldEnv.GROUND_Y - 25, 'fence')
+                .setOrigin(0, 0)
+                .setDepth(Depths.FENCE);
+        }
     }
 
     getGroundY (): number {

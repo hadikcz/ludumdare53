@@ -1,5 +1,6 @@
 export enum Depths {
     POND_WATER,
+    FENCE,
     BG_TEXTURE,
     FIELD,
     PLANT_ITEM,
